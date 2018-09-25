@@ -8,12 +8,13 @@ if (!Array.prototype.findIndex) {
     if (typeof predicate !== 'function') {
       throw new TypeError('predicate must be a function');
     }
-    var list = Object(this);
-    var length = list.length >>> 0;
-    var thisArg = arguments[1];
-    var value;
+    const list = Object(this);
+    // tslint:disable-next-line:no-bitwise
+    const length = list.length >>> 0;
+    const thisArg = arguments[1];
+    let value;
 
-    for (var i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
       value = list[i];
       if (predicate.call(thisArg, value, i, list)) {
         return i;
@@ -31,12 +32,13 @@ if (!Array.prototype.find) {
     if (typeof predicate !== 'function') {
       throw new TypeError('predicate must be a function');
     }
-    var list = Object(this);
-    var length = list.length >>> 0;
-    var thisArg = arguments[1];
-    var value;
+    const list = Object(this);
+    // tslint:disable-next-line:no-bitwise
+    const length = list.length >>> 0;
+    const thisArg = arguments[1];
+    let value;
 
-    for (var i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
       value = list[i];
       if (predicate.call(thisArg, value, i, list)) {
         return value;
@@ -49,24 +51,24 @@ if (!Array.prototype.find) {
 if (!Array.prototype.includes) {
   Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
     'use strict';
-    var O = Object(this);
-    var len = parseInt(O.length) || 0;
+    const O = Object(this);
+    const len = parseInt(O.length, 10) || 0;
     if (len === 0) {
       return false;
     }
-    var n = parseInt(arguments[1]) || 0;
-    var k;
+    const n = parseInt(arguments[1], 10) || 0;
+    let k;
     if (n >= 0) {
       k = n;
     } else {
       k = len + n;
-      if (k < 0) {k = 0;}
+      if (k < 0) { k = 0; }
     }
-    var currentElement;
+    let currentElement;
     while (k < len) {
       currentElement = O[k].toString();
-      if (searchElement == currentElement ||
-         (searchElement != searchElement && currentElement != currentElement)) { // NaN !== NaN
+      if (searchElement === currentElement ||
+         (searchElement !== searchElement && currentElement !== currentElement)) { // NaN !== NaN
         return true;
       }
       k++;
@@ -80,23 +82,25 @@ if (!Array.prototype.includes) {
 if (!Array.prototype.map) {
   Array.prototype.map = function(callback, thisArg) {
 
-    var T, A, k;
+    // tslint:disable-next-line:one-variable-per-declaration
+    let T, A, k;
 
     if (this == null) {
-      throw new TypeError(" this is null or not defined");
+      throw new TypeError(' this is null or not defined');
     }
 
     // 1. Let O be the result of calling ToObject passing the |this| value as the argument.
-    var O = Object(this);
+    const O = Object(this);
 
     // 2. Let lenValue be the result of calling the Get internal method of O with the argument "length".
     // 3. Let len be ToUint32(lenValue).
-    var len = O.length >>> 0;
+    // tslint:disable-next-line:no-bitwise
+    const len = O.length >>> 0;
 
     // 4. If IsCallable(callback) is false, throw a TypeError exception.
     // See: http://es5.github.com/#x9.11
-    if ({}.toString.call(callback) != "[object Function]") {
-      throw new TypeError(callback + " is not a function");
+    if ({}.toString.call(callback) !== '[object Function]') {
+      throw new TypeError(callback + ' is not a function');
     }
 
     // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
@@ -112,9 +116,10 @@ if (!Array.prototype.map) {
     k = 0;
 
     // 8. Repeat, while k < len
-    while(k < len) {
+    while (k < len) {
 
-      var kValue, mappedValue;
+      // tslint:disable-next-line:one-variable-per-declaration
+      let kValue, mappedValue;
 
       // a. Let Pk be ToString(k).
       //   This is implicit for LHS operands of the in operator
@@ -146,5 +151,5 @@ if (!Array.prototype.map) {
 
     // 9. return A
     return A;
-  };      
+  };
 }
