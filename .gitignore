@@ -1,3 +1,5 @@
 node_modules
-dest
+tmp
+
 src/settings.js
+.clasp.json
