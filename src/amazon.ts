@@ -1,5 +1,3 @@
-import {Util} from './code';
-
 /**
  * Amazon Advertising API
  */
@@ -74,8 +72,7 @@ const AdvertisingAPI = {
    */
   execItemSearch(queryCond: object): GoogleAppsScript.XML_Service.Document {
     const url = this.buildUrl(queryCond);
-    Logger.log('ItemSearch URL: %s', url);
-    Util.log('INFO', 'ItemSearch URL', url);
+    console.info({message: 'ItemSearch URL', url});
     try {
       const response = UrlFetchApp.fetch(url);
       return XmlService.parse(response.getContentText());

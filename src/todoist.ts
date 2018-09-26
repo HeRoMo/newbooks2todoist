@@ -23,7 +23,7 @@ const Todoist = {
       payload: task,
     };
     const response = UrlFetchApp.fetch(this.ITEM_ENDPOINT, opts);
-    Logger.log(response);
+    console.info({message: 'Todoist.addItemのレスポンス', response});
     return JSON.parse(response.getContentText());
   },
 
@@ -50,7 +50,7 @@ const Todoist = {
       },
     };
     const response = UrlFetchApp.fetch(this.SYNC_ENDPOINT, opts);
-    Logger.log(response);
+    console.info({message: 'Todoist.syncCommandsのレスポンス', response});
     return JSON.parse(response.getContentText());
   },
 };

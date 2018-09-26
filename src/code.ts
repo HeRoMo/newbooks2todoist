@@ -84,9 +84,9 @@ const Main = {
     try {
       resultXML = AdvertisingAPI.execItemSearch(cond);
     } catch (error) {
-      Util.log('ERROR', 'AdvertisingAPI.execItemSearch', error);
+      console.error({message: 'AdvertisingAPI.execItemSearchエラー', error});
     }
-    Util.log('INFO', 'AdvertisingAPI.execItemSearch結果', 'resultXML: ' + resultXML);
+    console.info({message: 'AdvertisingAPI.execItemSearch結果', resultXML});
     const result = Main.parseResult(resultXML);
 
     // NextCheckの更新
@@ -141,17 +141,6 @@ const Main = {
     const description = Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]);
 
     cal.createAllDayEvent(title, date, {description});
-  },
-};
-
-export const Util = {
-  log(level: string, subject: string, message: string): void {
-    const log = {
-      level,
-      subject,
-      message: message.toString(),
-    };
-    console.info(log);
   },
 };
 
