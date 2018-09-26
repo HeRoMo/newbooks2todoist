@@ -1,3 +1,11 @@
+interface IItem {
+  project_id: string;
+  content: string;
+  date_string: string;
+  note: string;
+  token?: string;
+}
+
 const Todoist = {
 
   ITEM_ENDPOINT: 'https://todoist.com/API/v7/items/add',
@@ -7,7 +15,7 @@ const Todoist = {
    * アイテムの追加
    * @param task [object] 内容は https://developer.todoist.com/?shell#add-item を参照のこと
    */
-  addItem(task) {
+  addItem(task: IItem): object {
     task.token = TD_TOKEN;
     const opts: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
       method: 'post',
@@ -22,7 +30,7 @@ const Todoist = {
   /**
    * Sync APIによるアイテム追加。
    */
-  addItemBySync(task) {
+  addItemBySync(task: object): object {
     const commands = [{
       args: task,
       temp_id: Utilities.getUuid(),
@@ -31,7 +39,8 @@ const Todoist = {
     }];
     return this.syncCommands(commands);
   },
-  syncCommands(commands) {
+
+  syncCommands(commands: object): object {
     const opts: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
       method: 'post',
       muteHttpExceptions: true,

@@ -8,7 +8,7 @@ const AdvertisingAPI = {
    * 現在時刻を取得する
    * @return ISOString形式の現在時刻
    */
-  timestamp() {
+  timestamp(): string {
     return new Date().toISOString();
   },
 
@@ -17,7 +17,7 @@ const AdvertisingAPI = {
    * @param [Object] 検索条件を含むはハッシュ
    * @return キーが名前順にソートされたクエリストリング
    */
-  buildQuery(hash) {
+  buildQuery(hash: object): string {
     const keys = Object.keys(hash).sort();
     const query = keys.map((key) => {
       return key + '=' + encodeURIComponent(hash[key]);
@@ -30,7 +30,7 @@ const AdvertisingAPI = {
    * @param [String] クエリストリング
    * @return クエリストリングから計算した署名文字列
    */
-  sign(query) {
+  sign(query: string): string {
     const value = 'GET\n' +
       'webservices.amazon.co.jp\n' +
         '/onca/xml\n' + query;
@@ -46,7 +46,7 @@ const AdvertisingAPI = {
    *  @param [Object] queryMap 検索条件
    *  @return Apazon Product Advertising API のリクエストURL
    */
-  buildUrl(queryMap) {
+  buildUrl(queryMap: object): string {
     const baseQuery = {
       Service: 'AWSECommerceService',
       // tslint:disable-next-line:object-literal-sort-keys
@@ -72,7 +72,7 @@ const AdvertisingAPI = {
    *  @param [Object] queryCond 検索条件
    *  @return 検索結果を含むXMLDocオブジェクト
    */
-  execItemSearch(queryCond) {
+  execItemSearch(queryCond: object): GoogleAppsScript.XML_Service.Document {
     const url = this.buildUrl(queryCond);
     Logger.log('ItemSearch URL: %s', url);
     Util.log('INFO', 'ItemSearch URL', url);

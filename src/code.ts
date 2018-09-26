@@ -7,13 +7,13 @@ const Main = {
    *  @param [xmlDoc] xmlDoc
    *  @return
    */
-  parseResult(xmlDoc) {
+  parseResult(xmlDoc: GoogleAppsScript.XML_Service.Document): string[][] {
     if (!xmlDoc) return [];
     Logger.log('xmlDoc is undefined');
     const root = xmlDoc.getRootElement();
     const items = root.getChild('Items', NS).getChildren('Item', NS);
 
-    const values = [];
+    const values: string[][] = [];
     items.forEach((item) => {
       const attrs = item.getChild('ItemAttributes', NS);
 
@@ -25,7 +25,7 @@ const Main = {
       const pubDate = attrs.getChild('PublicationDate', NS).getText();
       if (Date.now() > new Date(pubDate.replace(/-/g, '/')).getTime()) return;
 
-      const val = [];
+      const val: string[] = [];
       val.push(isbn.getText());
       val.push(attrs.getChild('Title', NS).getText());
       if (attrs.getChild('ListPrice', NS)) {
@@ -48,7 +48,7 @@ const Main = {
    * スプレッドシートから条件を読み出し、Amazonで検索し、
    * 新着があればスプレッドシートに記録し、Googleカレンダーに追加する
    */
-  searchAndAddEvent() {
+  searchAndAddEvent(): void {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
 
     // 次のターゲットを決める
@@ -106,7 +106,7 @@ const Main = {
     }
     const exists = targetSheet.getRange('A1:A' + targetSheet.getLastRow()).getValues();
     result.forEach((rowContents) => {
-      if (!exists.includes(rowContents[0]) /*&& rowContents[2]!="NA"*/) {
+      if (!exists.includes(Object(rowContents[0])) /*&& rowContents[2]!="NA"*/) {
         targetSheet.appendRow(rowContents);
         Main.createTask(rowContents);
       }
@@ -117,13 +117,14 @@ const Main = {
    * Todoist の買い物プロジェクトにタスクを追加する
    */
   createTask(data) {
+    // tslint:disable:object-literal-sort-keys
     const task = {
       project_id: P_SHOPPING,
-      // tslint:disable-next-line:object-literal-sort-keys
       content: Utilities.formatString('[「%s」購入](%s)', data[1], data[4]),
       date_string: data[3],
       note: Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]),
     };
+    // tslint:eable:object-literal-sort-keys
     const res = Todoist.addItem(task);
     return res;
   },
@@ -144,7 +145,7 @@ const Main = {
 };
 
 export const Util = {
-  log(level, subject, message) {
+  log(level: string, subject: string, message: string): void {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     const logSheet = ss.getSheetByName('LOG');
     const time = new Date();
