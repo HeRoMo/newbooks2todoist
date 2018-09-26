@@ -146,16 +146,12 @@ const Main = {
 
 export const Util = {
   log(level: string, subject: string, message: string): void {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const logSheet = ss.getSheetByName('LOG');
-    const time = new Date();
-    const log = [
-      time,
+    const log = {
       level,
       subject,
-      message.toString(),
-    ];
-    logSheet.appendRow(log);
+      message: message.toString(),
+    };
+    console.info(log);
   },
 };
 
