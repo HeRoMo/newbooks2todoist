@@ -54,3 +54,5 @@ const Todoist = {
     return JSON.parse(response.getContentText());
   },
 };
+
+export default Todoist;

@@ -18,7 +18,7 @@ const AdvertisingAPI = {
   buildQuery(hash: object): string {
     const keys = Object.keys(hash).sort();
     const query = keys.map((key) => {
-      return key + '=' + encodeURIComponent(hash[key]);
+      return `${key}=${encodeURIComponent(hash[key])}`;
     });
     return query.join('&');
   },
@@ -29,10 +29,7 @@ const AdvertisingAPI = {
    * @return クエリストリングから計算した署名文字列
    */
   sign(query: string): string {
-    const value = 'GET\n' +
-      'webservices.amazon.co.jp\n' +
-        '/onca/xml\n' + query;
-
+    const value = `GET\nwebservices.amazon.co.jp\n/onca/xml\n${query}`;
     const signature = Utilities.computeHmacSha256Signature(value, awsSecretyKey);
     const signatureStr = Utilities.base64Encode(signature);
     return encodeURIComponent(signatureStr);
@@ -62,7 +59,7 @@ const AdvertisingAPI = {
       baseQuery[key] = queryMap[key];
     });
     const query = this.buildQuery(baseQuery);
-    return 'https://webservices.amazon.co.jp/onca/xml?' + query + '&Signature=' + this.sign(query);
+    return `https://webservices.amazon.co.jp/onca/xml?${query}&Signature=${this.sign(query)}`;
   },
 
   /**

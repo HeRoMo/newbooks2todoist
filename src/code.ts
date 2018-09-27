@@ -1,4 +1,5 @@
 import AdvertisingAPI from './amazon';
+import Todoist from './todoist';
 
 const Main = {
   /**
@@ -127,20 +128,6 @@ const Main = {
     // tslint:eable:object-literal-sort-keys
     const res = Todoist.addItem(task);
     return res;
-  },
-
-  /**
-   * Google Calendar に予定を追加する
-   * @param [Array] 追加する予定のデータ［ISBN,書名,価格,発売日］の配列
-   * Todoistへの登録に変更したので使っていない。2017/04/23
-   */
-  createCalEvent(data) {
-    const cal = CalendarApp.getCalendarById(CAL_ID);
-    const title = Utilities.formatString('「%s」購入', data[1]);
-    const date = new Date(data[3].replace(/-/g, '/'));
-    const description = Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]);
-
-    cal.createAllDayEvent(title, date, {description});
   },
 };
 
