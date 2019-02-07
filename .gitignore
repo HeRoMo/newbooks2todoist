@@ -1,3 +1,6 @@
 node_modules
-dest
-src/settings.js
+tmp
+
+src/settings.ts
+.clasp.json
+.clasprc.json
