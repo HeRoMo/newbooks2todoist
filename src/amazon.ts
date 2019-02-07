@@ -1,3 +1,12 @@
+// Amazon Serch Settings
+const API_VERSION = '2011-08-01';
+const NS_URL = 'http://webservices.amazon.com/AWSECommerceService/2011-08-01';
+const NS = XmlService.getNamespace(NS_URL);
+
+import loadConfig from './config';
+
+const config = loadConfig();
+
 /**
  * Amazon Advertising API
  */
@@ -30,7 +39,7 @@ const AdvertisingAPI = {
    */
   sign(query: string): string {
     const value = `GET\nwebservices.amazon.co.jp\n/onca/xml\n${query}`;
-    const signature = Utilities.computeHmacSha256Signature(value, awsSecretyKey);
+    const signature = Utilities.computeHmacSha256Signature(value, config.awsSecretyKey);
     const signatureStr = Utilities.base64Encode(signature);
     return encodeURIComponent(signatureStr);
   },
@@ -46,8 +55,8 @@ const AdvertisingAPI = {
       Service: 'AWSECommerceService',
       // tslint:disable-next-line:object-literal-sort-keys
       Operation: 'ItemSearch',
-      SubscriptionId: awsAccessKey,
-      AssociateTag: associateTag,
+      SubscriptionId: config.awsAccessKey,
+      AssociateTag: config.associateTag,
       Version: '2011-08-02',
       SearchIndex: 'Books',
       Sort: 'daterank',
