@@ -1,24 +1,24 @@
 {
-  "name": "amazon2todoist",
+  "name": "newbooks2todoist",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "@google/clasp": "^1.5.3",
-    "@types/google-apps-script": "0.0.28",
+    "@google/clasp": "^2.0.1",
+    "@types/google-apps-script": "^0.0.36",
     "tslint": "^5.11.0"
   },
   "scripts": {
     "login": "./node_modules/.bin/clasp login",
-    "init_gas": "./node_modules/.bin/clasp create amazon2todoist",
+    "init_gas": "./node_modules/.bin/clasp create newbooks2todoist",
     "build": "webpack",
     "cleanup": "rm -rf dest/*",
     "deploy": "./node_modules/.bin/clasp push"
   },
   "keywords": [
     "gas",
-    "amazon",
+    "rakuten books api",
     "todoist"
   ],
   "author": "HeRoMo",
