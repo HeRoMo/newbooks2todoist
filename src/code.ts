@@ -1,53 +1,40 @@
-import AdvertisingAPI from './amazon';
-import Todoist from './todoist';
+import loadConfig from './config';
+import RakutenBooks, {IBookInfo} from './RakutenBooks';
+import Todoist from './Todoist';
+
+const config = loadConfig();
+
+function today(): Date {
+  const date = new Date();
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date;
+}
 
 const Main = {
   /**
-   *  Apazon Product Advertising API の結果をパースして必要な情報を取り出す。
+   *  RakutenBooks API の結果をパースして必要な情報を取り出す。
    *  紙の本かつこれから発売される情報のみに絞り込む
    *  @param [xmlDoc] xmlDoc
    *  @return
    */
-  parseResult(xmlDoc: GoogleAppsScript.XML_Service.Document): string[][] {
-    if (!xmlDoc) return [];
-    Logger.log('xmlDoc is undefined');
-    const root = xmlDoc.getRootElement();
-    const items = root.getChild('Items', NS).getChildren('Item', NS);
-
-    const values: string[][] = [];
-    items.forEach((item) => {
-      const attrs = item.getChild('ItemAttributes', NS);
-
-      // 紙の本のみ（ISBNを持つ）に絞り込む
-      const isbn = attrs.getChild('ISBN', NS);
-      if (isbn === undefined) return;
-
-      // 未発売のものだけに絞り込む
-      const pubDate = attrs.getChild('PublicationDate', NS).getText();
-      if (Date.now() > new Date(pubDate.replace(/-/g, '/')).getTime()) return;
-
-      const val: string[] = [];
-      val.push(isbn.getText());
-      val.push(attrs.getChild('Title', NS).getText());
-      if (attrs.getChild('ListPrice', NS)) {
-        val.push(attrs.getChild('ListPrice', NS).getChild('FormattedPrice', NS).getText());
-      } else {
-        val.push('NA'); // 価格が取れないときがある。
+  parseResult(result: IBookInfo[]): string[][] {
+    const res = [];
+    const todayObj = today();
+    result.forEach((book) => {
+      const pubDate = new Date(book.salesDate);
+      if (pubDate >= todayObj) {
+        res.push([book.isbn, book.title, book.itemPrice, book.salesDate, book.url]);
       }
-      val.push(pubDate);
-
-      // amazonの商品ページ
-      const itmeUrl = item.getChild('DetailPageURL', NS).getText();
-      val.push(itmeUrl);
-
-      values.push(val);
     });
-    return values;
+    return res;
   },
 
   /**
-   * スプレッドシートから条件を読み出し、Amazonで検索し、
-   * 新着があればスプレッドシートに記録し、Googleカレンダーに追加する
+   * スプレッドシートから条件を読み出し、楽天Booksで検索し、
+   * 新着があればスプレッドシートに記録し、Todoistに追加する
    */
   searchAndAddEvent(): void {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -81,14 +68,16 @@ const Main = {
     }
 
     // 条件を元に検索
-    let resultXML;
+    let resultSearch: IBookInfo[];
     try {
-      resultXML = AdvertisingAPI.execItemSearch(cond);
+      const client = new RakutenBooks(config.RAKUTEN_APP_ID);
+      resultSearch = client.search(cond);
     } catch (error) {
-      console.error({message: 'AdvertisingAPI.execItemSearchエラー', error});
+      console.error({message: 'RakutenBooks#searchエラー', error});
     }
-    console.info({message: 'AdvertisingAPI.execItemSearch結果', resultXML});
-    const result = Main.parseResult(resultXML);
+    console.info({message: 'RakutenBooks#search結果', resultSearch});
+    const result = Main.parseResult(resultSearch);
+    console.log(result);
 
     // NextCheckの更新
     const now = new Date(Date.now());
@@ -117,16 +106,17 @@ const Main = {
   /**
    * Todoist の買い物プロジェクトにタスクを追加する
    */
-  createTask(data) {
+  createTask(data: string[]) {
     // tslint:disable:object-literal-sort-keys
     const task = {
-      project_id: P_SHOPPING,
+      project_id: config.P_SHOPPING,
       content: Utilities.formatString('[「%s」購入](%s)', data[1], data[4]),
       date_string: data[3],
       note: Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]),
     };
     // tslint:eable:object-literal-sort-keys
-    const res = Todoist.addItem(task);
+    const todoistClient = new Todoist(config.TD_TOKEN);
+    const res = todoistClient.addItem(task);
     return res;
   },
 };
