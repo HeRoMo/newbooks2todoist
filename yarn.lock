@@ -43,10 +43,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
   integrity sha512-ONhaKPIufzzrlNbqtWFFd+jlnemX6lJAgq9ZeiZtS7I1PIf/la7CW4m83rTXRnVnsMbW2k56pGYu7AUFJD9Pow==
 
-"@types/google-apps-script@^0.0.36":
-  version "0.0.36"
-  resolved "https://registry.yarnpkg.com/@types/google-apps-script/-/google-apps-script-0.0.36.tgz#c8359fe6c31fdc8b96d6749d6cb9c441d8c29519"
-  integrity sha512-bX3QbO0UxKODMK19tRApJJYg5KIqkee8gAqeR6Msh7wTtjHLvQA1uUYYGRAJFe85CQHyX+qb+JGyrgNVP6OiZQ==
+"@types/google-apps-script@^0.0.37":
+  version "0.0.37"
+  resolved "https://registry.yarnpkg.com/@types/google-apps-script/-/google-apps-script-0.0.37.tgz#8e070b6e3784960e931c714196df6a1de9f7fe5e"
+  integrity sha512-ByTBI0m6D9vgv9pkhaUwx61OqLbPNfFm+/sI1eMpWxFzq7LkfII2q2GpS9Pu6Ig1fg1lKFVvbJweC0Si9kuYtw==
 
 agent-base@^4.1.0:
   version "4.2.1"
