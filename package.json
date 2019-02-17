@@ -1,0 +1,25 @@
+{
+  "name": "newbooks2todoist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@google/clasp": "^2.0.1",
+    "@types/google-apps-script": "^0.0.37",
+    "tslint": "^5.11.0"
+  },
+  "scripts": {
+    "clasp:login": "./node_modules/.bin/clasp login",
+    "clasp:create": "./node_modules/.bin/clasp create --type sheets --title 'newbooks2todoist' --rootDir ./src",
+    "clasp:push": "./node_modules/.bin/clasp push",
+    "clasp:open": "./node_modules/.bin/clasp open"
+  },
+  "keywords": [
+    "gas",
+    "rakuten books api",
+    "todoist"
+  ],
+  "author": "HeRoMo",
+  "license": "MIT"
+}

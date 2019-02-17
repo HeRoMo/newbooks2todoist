@@ -1,0 +1,6 @@
+node_modules
+tmp
+
+src/settings.ts
+.clasp.json
+.clasprc.json
