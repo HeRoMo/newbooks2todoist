@@ -92,7 +92,7 @@ const Main = {
     let targetSheet = ss.getSheetByName(String(nextTarget[0]));
     if (targetSheet == null) { // 結果を書き込むシートがなければ作る
       targetSheet = ss.insertSheet(nextTarget[0]);
-      targetSheet.getRange('A1:E1').setValues([['ISBN', 'Title', 'FormattedPrice', 'PublicationDate', 'URL']]);
+      targetSheet.getRange('A1:E1').setValues([['ISBN/JAN', 'Title', 'FormattedPrice', 'PublicationDate', 'URL']]);
     }
     const exists = targetSheet.getRange('A1:A' + targetSheet.getLastRow()).getValues();
     result.forEach((rowContents) => {
