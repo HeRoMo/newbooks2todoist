@@ -12,7 +12,8 @@
   "scripts": {
     "clasp:login": "./node_modules/.bin/clasp login",
     "clasp:create": "./node_modules/.bin/clasp create --type sheets --title 'newbooks2todoist' --rootDir ./src",
-    "clasp:push": "./node_modules/.bin/clasp push"
+    "clasp:push": "./node_modules/.bin/clasp push",
+    "clasp:open": "./node_modules/.bin/clasp open"
   },
   "keywords": [
     "gas",
