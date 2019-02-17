@@ -109,13 +109,13 @@ const Main = {
   createTask(data: string[]) {
     // tslint:disable:object-literal-sort-keys
     const task = {
-      project_id: config.P_SHOPPING,
+      project_id: config.TODOIST_PROJECT_ID,
       content: Utilities.formatString('[「%s」購入](%s)', data[1], data[4]),
       date_string: data[3],
       note: Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]),
     };
     // tslint:eable:object-literal-sort-keys
-    const todoistClient = new Todoist(config.TD_TOKEN);
+    const todoistClient = new Todoist(config.TODOIST_API_TOKEN);
     const res = todoistClient.addItem(task);
     return res;
   },
