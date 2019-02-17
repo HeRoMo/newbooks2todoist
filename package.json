@@ -10,11 +10,9 @@
     "tslint": "^5.11.0"
   },
   "scripts": {
-    "login": "./node_modules/.bin/clasp login",
-    "init_gas": "./node_modules/.bin/clasp create newbooks2todoist",
-    "build": "webpack",
-    "cleanup": "rm -rf dest/*",
-    "deploy": "./node_modules/.bin/clasp push"
+    "clasp:login": "./node_modules/.bin/clasp login",
+    "clasp:create": "./node_modules/.bin/clasp create --type sheets --title 'newbooks2todoist' --rootDir ./src",
+    "clasp:push": "./node_modules/.bin/clasp push"
   },
   "keywords": [
     "gas",
