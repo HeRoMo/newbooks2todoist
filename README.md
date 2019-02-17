@@ -12,7 +12,7 @@ A GAS(Google Apps Scripts) application for finding new book release and add your
 - Rakuten App ID
   - Access [Rakuten Web Service: Application list](https://webservice.rakuten.co.jp/app/list) to create your Rakuten App Id
 - Todoist API token
-  - Access [連携機能](https://todoist.com/prefs/integrations) to create your Todoist API token
+  - Access [Integrations](https://todoist.com/prefs/integrations) to create your Todoist API token
 
 ### Deploy GAS scripts
 
