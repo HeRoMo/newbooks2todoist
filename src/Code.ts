@@ -1,8 +1,6 @@
 import loadConfig from './config';
-import RakutenBooks, {IBookInfo} from './RakutenBooks';
+import RakutenBooks, {IBookInfo, ISerachConditiuoin} from './RakutenBooks';
 import Todoist from './Todoist';
-
-const config = loadConfig();
 
 function today(): Date {
   const date = new Date();
@@ -60,7 +58,7 @@ const Main = {
     const nextTarget = targetRange.getValues()[0];
 
     // ターゲットの条件を取得する
-    const cond = {};
+    const cond: ISerachConditiuoin = {type: 'book'};
     for (let i = 3; i < header.length; i++) {
       if (header[i] === '') break;
       if (nextTarget[i] === '') continue;
@@ -70,6 +68,7 @@ const Main = {
     // 条件を元に検索
     let resultSearch: IBookInfo[];
     try {
+      const config = loadConfig();
       const client = new RakutenBooks(config.RAKUTEN_APP_ID);
       resultSearch = client.search(cond);
     } catch (error) {
@@ -107,6 +106,7 @@ const Main = {
    * Todoist の買い物プロジェクトにタスクを追加する
    */
   createTask(data: string[]) {
+    const config = loadConfig();
     // tslint:disable:object-literal-sort-keys
     const task = {
       project_id: config.TODOIST_PROJECT_ID,

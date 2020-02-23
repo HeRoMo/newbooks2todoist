@@ -9,12 +9,8 @@ export interface IBookInfo {
 }
 
 export interface ISerachConditiuoin {
-  title: string;
-  seriesName: string;
-  author: string;
-  salesDate: string;
-  itemPrice: string;
-  itemUrl: string;
+  title?: string;
+  author?: string;
   type: 'book'|'magazine';
 }
 
