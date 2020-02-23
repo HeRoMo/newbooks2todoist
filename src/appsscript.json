@@ -1,6 +1,15 @@
 {
   "timeZone": "Asia/Tokyo",
   "dependencies": {
+    "libraries": [{
+      "userSymbol": "Todoist",
+      "libraryId": "1EMZVgA58kI-yF2-mB8r14-dTk0D4cia9tRc9X2_lpiWO3IqRq6eWBg-S",
+      "version": "1"
+    }]
   },
-  "exceptionLogging": "STACKDRIVER"
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/script.external_request"
+  ]
 }
