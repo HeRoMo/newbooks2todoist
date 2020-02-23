@@ -1,6 +1,5 @@
 import loadConfig from './config';
 import RakutenBooks, {IBookInfo, ISerachConditiuoin} from './RakutenBooks';
-import Todoist from './Todoist';
 
 function today(): Date {
   const date = new Date();
@@ -115,8 +114,8 @@ const Main = {
       note: Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]),
     };
     // tslint:eable:object-literal-sort-keys
-    const todoistClient = new Todoist(config.TODOIST_API_TOKEN);
-    const res = todoistClient.addItem(task);
+    const todoistClient = new Todoist(config.TODOIST_API_TOKEN).Todoist.items;
+    const res = todoistClient.add(task);
     return res;
   },
 };
