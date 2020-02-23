@@ -1,5 +1,5 @@
 import loadConfig from './config';
-import RakutenBooks, {IBookInfo, ISerachConditiuoin} from './RakutenBooks';
+import RakutenBooks, { IBookInfo, ISerachConditiuoin } from './RakutenBooks';
 
 function today(): Date {
   const date = new Date();
@@ -42,9 +42,7 @@ const Main = {
     const values = range.getValues();
 
     const header = values.shift();
-    const nextCheckIdx = header.findIndex((e) => {
-      return e === 'NextCheck';
-    });
+    const nextCheckIdx = header.findIndex((e) => e === 'NextCheck');
 
     const nextTargetIndex = values.findIndex((val) => {
       const ncheck = val[nextCheckIdx];
@@ -57,10 +55,10 @@ const Main = {
     const nextTarget = targetRange.getValues()[0];
 
     // ターゲットの条件を取得する
-    const cond: ISerachConditiuoin = {type: 'book'};
-    for (let i = 3; i < header.length; i++) {
+    const cond: ISerachConditiuoin = { type: 'book' };
+    for (let i = 3; i < header.length; i += 1) {
       if (header[i] === '') break;
-      if (nextTarget[i] === '') continue;
+      if (nextTarget[i] === '') continue; // eslint-disable-line no-continue
       cond[String(header[i])] = nextTarget[i];
     }
 
@@ -71,11 +69,10 @@ const Main = {
       const client = new RakutenBooks(config.RAKUTEN_APP_ID);
       resultSearch = client.search(cond);
     } catch (error) {
-      console.error({message: 'RakutenBooks#searchエラー', error});
+      console.error({ message: 'RakutenBooks#searchエラー', error });
     }
-    console.info({message: 'RakutenBooks#search結果', resultSearch});
+    console.info({ message: 'RakutenBooks#search結果', resultSearch });
     const result = Main.parseResult(resultSearch);
-    console.log(result);
 
     // NextCheckの更新
     const now = new Date(Date.now());
@@ -92,9 +89,9 @@ const Main = {
       targetSheet = ss.insertSheet(nextTarget[0]);
       targetSheet.getRange('A1:E1').setValues([['ISBN/JAN', 'Title', 'FormattedPrice', 'PublicationDate', 'URL']]);
     }
-    const exists = targetSheet.getRange('A1:A' + targetSheet.getLastRow()).getValues();
+    const exists = targetSheet.getRange(`A1:A${targetSheet.getLastRow()}`).getValues();
     result.forEach((rowContents) => {
-      if (!exists.includes(Object(rowContents[0])) /*&& rowContents[2]!="NA"*/) {
+      if (!exists.includes(Object(rowContents[0])) /* && rowContents[2]!="NA" */) {
         targetSheet.appendRow(rowContents);
         Main.createTask(rowContents);
       }
@@ -106,20 +103,22 @@ const Main = {
    */
   createTask(data: string[]) {
     const config = loadConfig();
-    // tslint:disable:object-literal-sort-keys
-    const task = {
+    /* eslint-disable @typescript-eslint/camelcase */
+    const item = {
       project_id: config.TODOIST_PROJECT_ID,
       content: Utilities.formatString('[「%s」購入](%s)', data[1], data[4]),
       date_string: data[3],
-      note: Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]),
     };
+    const note = { content: Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]) };
+    /* eslint-enable @typescript-eslint/camelcase */
     // tslint:eable:object-literal-sort-keys
-    const todoistClient = new Todoist(config.TODOIST_API_TOKEN).Todoist.items;
-    const res = todoistClient.add(task);
+    const todoistClient = new Todoist.Client(config.TODOIST_API_TOKEN);
+    const res = todoistClient.addItem(item, note);
     return res;
   },
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function execute() {
   Main.searchAndAddEvent();
 }

@@ -19,7 +19,7 @@ class RakutenBooks {
   private static readonly magazineEndpoint = 'https://app.rakuten.co.jp/services/api/BooksMagazine/Search/20170404';
 
   private appId: string;
-  private baseQuery = {applicationId: null, format: 'json', sort: '-releaseDate'};
+  private baseQuery = { applicationId: null, format: 'json', sort: '-releaseDate' };
 
   public constructor(appId: string) {
     this.appId = appId;
@@ -51,12 +51,27 @@ class RakutenBooks {
     const response = UrlFetchApp.fetch(url);
     const result = JSON.parse(response.getContentText());
     const books = result.Items.map((item: any) => {
-      const {title, seriesName, author, salesDate, itemPrice, itemUrl} = item.Item;
+      const {
+        title,
+        seriesName,
+        author,
+        salesDate,
+        itemPrice,
+        itemUrl,
+      } = item.Item;
       const isbn = (type === 'book') ? item.Item.isbn : item.Item.jan;
       const date = salesDate.slice(0, -1).replace(/年|月/g, '-');
-      return {title, seriesName, author, isbn, salesDate: date, itemPrice, url: itemUrl};
+      return {
+        title,
+        seriesName,
+        author,
+        isbn,
+        salesDate: date,
+        itemPrice,
+        url: itemUrl,
+      };
     });
-    console.info({url, books});
+    console.info({ url, books });
     return books;
   }
 
@@ -65,7 +80,7 @@ class RakutenBooks {
    * @param query
    */
   private makeQuery(query: ISerachConditiuoin): string {
-    const queryParams = {...this.baseQuery, ...query};
+    const queryParams = { ...this.baseQuery, ...query };
     delete queryParams.type;
     const keys = Object.keys(queryParams);
     const queries = keys.map((key) => `${key}=${encodeURIComponent(queryParams[key])}`);
