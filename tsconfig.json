@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "lib": ["esnext"],
+    "experimentalDecorators": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "typeRoots" : [
+      "./node_modules/@types",
+      "./types"
+    ],
+    "noUnusedParameters": false
+  }
+}

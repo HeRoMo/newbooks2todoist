@@ -7,9 +7,9 @@ function loadConfig(): {[key: string]: string} {
   const values = range.getValues();
 
   const config: {[key: string]: string} = {};
-  for (const val of values) {
+  values.forEach((val) => {
     config[String(val[0])] = String(val[1]);
-  }
+  });
   return config;
 }
 
