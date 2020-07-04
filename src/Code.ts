@@ -89,9 +89,9 @@ const Main = {
       targetSheet = ss.insertSheet(nextTarget[0]);
       targetSheet.getRange('A1:E1').setValues([['ISBN/JAN', 'Title', 'FormattedPrice', 'PublicationDate', 'URL']]);
     }
-    const exists = targetSheet.getRange(`A1:A${targetSheet.getLastRow()}`).getValues();
+    const exists = targetSheet.getRange(`A2:A${targetSheet.getLastRow()}`).getValues().flat() as number[];
     result.forEach((rowContents) => {
-      if (!exists.includes(Object(rowContents[0])) /* && rowContents[2]!="NA" */) {
+      if (!exists.includes(Number(rowContents[0]))) {
         targetSheet.appendRow(rowContents);
         Main.createTask(rowContents);
       }
