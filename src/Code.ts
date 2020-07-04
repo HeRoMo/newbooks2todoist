@@ -10,7 +10,7 @@ function today(): Date {
   return date;
 }
 
-const Main = {
+const Main = { // eslint-disable-line @typescript-eslint/naming-convention
   /**
    *  RakutenBooks API の結果をパースして必要な情報を取り出す。
    *  紙の本かつこれから発売される情報のみに絞り込む
@@ -103,14 +103,14 @@ const Main = {
    */
   createTask(data: string[]) {
     const config = loadConfig();
-    /* eslint-disable @typescript-eslint/camelcase */
+    /* eslint-disable @typescript-eslint/naming-convention */
     const item = {
       project_id: config.TODOIST_PROJECT_ID,
       content: Utilities.formatString('[「%s」購入](%s)', data[1], data[4]),
       date_string: data[3],
     };
     const note = { content: Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]) };
-    /* eslint-enable @typescript-eslint/camelcase */
+    /* eslint-enable @typescript-eslint/naming-convention */
     // tslint:eable:object-literal-sort-keys
     const todoistClient = new Todoist.Client(config.TODOIST_API_TOKEN);
     const res = todoistClient.addItem(item, note);

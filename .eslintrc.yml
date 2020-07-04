@@ -18,8 +18,18 @@ parserOptions:
 plugins:
   - '@typescript-eslint'
   - googleappsscript
+ignorePatterns:
+  - '*.js'
+  - '*.d.ts'
 rules:
-  '@typescript-eslint/camelcase': [error, { allow: [URL_Fetch] }]
+  "@typescript-eslint/naming-convention": [
+    error,
+    { selector: default, format: [camelCase] },
+    { selector: variable, format: [camelCase, UPPER_CASE] },
+    { selector: parameter, format: [camelCase], leadingUnderscore: allow },
+    { selector: memberLike, modifiers: [private], format: [camelCase] },
+    { selector: typeLike, format: [PascalCase] }
+  ]
   '@typescript-eslint/no-unused-vars': error
   camelcase: off
   import/extensions: [error, ignorePackages, { ts: never, js: never }]
