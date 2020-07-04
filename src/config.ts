@@ -1,4 +1,3 @@
-
 function loadConfig(): {[key: string]: string} {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
 
