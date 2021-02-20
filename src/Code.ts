@@ -42,7 +42,7 @@ const Main = { // eslint-disable-line @typescript-eslint/naming-convention
     const values = range.getValues();
 
     const header = values.shift();
-    const nextCheckIdx = header.findIndex((e) => e === "NextCheck");
+    const nextCheckIdx = header.findIndex((e) => e === 'NextCheck');
 
     const nextTargetIndex = values.findIndex((val) => {
       const ncheck = val[nextCheckIdx];
