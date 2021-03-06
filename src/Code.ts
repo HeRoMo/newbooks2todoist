@@ -1,5 +1,5 @@
 import loadConfig from './config';
-import RakutenBooks, { IBookInfo, ISerachConditiuoin } from "./RakutenBooks";
+import RakutenBooks, { IBookInfo, ISerachConditiuoin } from './RakutenBooks';
 
 function today(): Date {
   const date = new Date();
