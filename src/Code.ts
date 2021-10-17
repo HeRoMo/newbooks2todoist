@@ -1,7 +1,7 @@
-import loadConfig from './config';
+import { Config } from './Config';
 import RakutenBooks, { IBookInfo, ISerachConditiuoin } from './RakutenBooks';
 
-function today(): Date {
+function today_(): Date {
   const date = new Date();
   date.setHours(0);
   date.setMinutes(0);
@@ -10,16 +10,16 @@ function today(): Date {
   return date;
 }
 
-const Main = { // eslint-disable-line @typescript-eslint/naming-convention
+class Main {
   /**
    *  RakutenBooks API の結果をパースして必要な情報を取り出す。
    *  紙の本かつこれから発売される情報のみに絞り込む
    *  @param [xmlDoc] xmlDoc
    *  @return
    */
-  parseResult(result: IBookInfo[]): string[][] {
+  static parseResult(result: IBookInfo[]): string[][] {
     const res = [];
-    const todayObj = today();
+    const todayObj = today_();
     result.forEach((book) => {
       const pubDate = new Date(book.salesDate);
       if (pubDate >= todayObj) {
@@ -27,13 +27,13 @@ const Main = { // eslint-disable-line @typescript-eslint/naming-convention
       }
     });
     return res;
-  },
+  }
 
   /**
    * スプレッドシートから条件を読み出し、楽天Booksで検索し、
    * 新着があればスプレッドシートに記録し、Todoistに追加する
    */
-  searchAndAddEvent(): void {
+  static searchAndAddEvent(): void {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
 
     // 次のターゲットを決める
@@ -65,7 +65,7 @@ const Main = { // eslint-disable-line @typescript-eslint/naming-convention
     // 条件を元に検索
     let resultSearch: IBookInfo[];
     try {
-      const config = loadConfig();
+      const config = Config.loadConfig();
       const client = new RakutenBooks(config.RAKUTEN_APP_ID);
       resultSearch = client.search(cond);
     } catch (error) {
@@ -96,13 +96,13 @@ const Main = { // eslint-disable-line @typescript-eslint/naming-convention
         Main.createTask(rowContents);
       }
     });
-  },
+  }
 
   /**
    * Todoist の買い物プロジェクトにタスクを追加する
    */
-  createTask(data: string[]) {
-    const config = loadConfig();
+  static createTask(data: string[]) {
+    const config = Config.loadConfig();
     /* eslint-disable @typescript-eslint/naming-convention */
     const item = {
       project_id: config.TODOIST_PROJECT_ID,
@@ -115,8 +115,8 @@ const Main = { // eslint-disable-line @typescript-eslint/naming-convention
     const todoistClient = new Todoist.Client(config.TODOIST_API_TOKEN);
     const res = todoistClient.addItem(item, note);
     return res;
-  },
-};
+  }
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function execute() {

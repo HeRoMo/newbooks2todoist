@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "isolatedModules": true,
-    "noLib": true,
-    "noResolve": true,
     "target": "ES2019",
     "module": "None",
     "noImplicitUseStrict": true,
