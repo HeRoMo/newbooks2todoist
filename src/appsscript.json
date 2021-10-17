@@ -4,7 +4,7 @@
     "libraries": [{
       "userSymbol": "Todoist",
       "libraryId": "1EMZVgA58kI-yF2-mB8r14-dTk0D4cia9tRc9X2_lpiWO3IqRq6eWBg-S",
-      "version": "6"
+      "version": "7"
     }]
   },
   "exceptionLogging": "STACKDRIVER",
