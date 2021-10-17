@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "lib": ["esnext"],
+    "target": "ES2019",
+    "module": "None",
+    "noImplicitUseStrict": true,
     "experimentalDecorators": true,
-    "target": "ESNext",
-    "module": "ESNext",
     "typeRoots" : [
       "./node_modules/@types",
       "./types"
-    ],
-    "noUnusedParameters": false
+    ]
   }
 }

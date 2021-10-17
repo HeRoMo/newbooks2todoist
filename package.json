@@ -5,14 +5,14 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "@google/clasp": "^2.3.0",
-    "@types/google-apps-script": "^1.0.25",
-    "@typescript-eslint/eslint-plugin": "^4.16.1",
-    "@typescript-eslint/parser": "^4.16.1",
-    "eslint": "^7.21.0",
+    "@google/clasp": "^2.4.1",
+    "@types/google-apps-script": "^1.0.37",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.1",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-googleappsscript": "^1.0.3",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-googleappsscript": "^1.0.4",
+    "eslint-plugin-import": "^2.25.2"
   },
   "scripts": {
     "eslint": "eslint . --ext .ts",
