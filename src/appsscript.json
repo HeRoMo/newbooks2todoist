@@ -1,13 +1,18 @@
 {
   "timeZone": "Asia/Tokyo",
-  "dependencies": {
-    "libraries": [{
-      "userSymbol": "Todoist",
-      "libraryId": "1EMZVgA58kI-yF2-mB8r14-dTk0D4cia9tRc9X2_lpiWO3IqRq6eWBg-S",
-      "version": "9"
-    }]
-  },
   "exceptionLogging": "STACKDRIVER",
-  "oauthScopes": ["https://www.googleapis.com/auth/script.external_request", "https://www.googleapis.com/auth/spreadsheets"],
-  "runtimeVersion": "V8"
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "Todoist",
+        "libraryId": "1EMZVgA58kI-yF2-mB8r14-dTk0D4cia9tRc9X2_lpiWO3IqRq6eWBg-S",
+        "version": "10"
+      }
+    ]
+  },
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/spreadsheets"
+  ]
 }
