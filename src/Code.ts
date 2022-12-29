@@ -106,10 +106,10 @@ class Main {
     /* eslint-disable @typescript-eslint/naming-convention */
     const item = {
       project_id: config.TODOIST_PROJECT_ID,
-      content: Utilities.formatString('[「%s」購入](%s)', data[1], data[4]),
+      content: `[「${data[1]}」購入](${data[4]})`,
       due: { date: data[3] },
     };
-    const note = { content: Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]) };
+    const note = { content: `ISBN: ${data[0]}\n書名: ${data[1]}\n価格: ${data[2]}` };
     /* eslint-enable @typescript-eslint/naming-convention */
     // tslint:eable:object-literal-sort-keys
     const todoistClient = new Todoist.Client(config.TODOIST_API_TOKEN);
