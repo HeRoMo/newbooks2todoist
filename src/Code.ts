@@ -107,7 +107,7 @@ class Main {
     const item = {
       project_id: config.TODOIST_PROJECT_ID,
       content: Utilities.formatString('[「%s」購入](%s)', data[1], data[4]),
-      date_string: data[3],
+      due: { date: data[3] },
     };
     const note = { content: Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]) };
     /* eslint-enable @typescript-eslint/naming-convention */
