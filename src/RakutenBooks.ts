@@ -15,8 +15,8 @@ export interface ISerachConditiuoin {
 }
 
 class RakutenBooks {
-  private static readonly bookEndpoint = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404';
-  private static readonly magazineEndpoint = 'https://app.rakuten.co.jp/services/api/BooksMagazine/Search/20170404';
+  private static readonly BOOK_ENDPOINT = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404';
+  private static readonly MAGAZINE_ENDPOINT = 'https://app.rakuten.co.jp/services/api/BooksMagazine/Search/20170404';
 
   private appId: string;
   private baseQuery = { applicationId: null, format: 'json', sort: '-releaseDate' };
@@ -46,7 +46,7 @@ class RakutenBooks {
    */
   private execSearch(query: ISerachConditiuoin): IBookInfo[] {
     const type = query.type || 'book';
-    const endpoint = (type === 'book') ? RakutenBooks.bookEndpoint : RakutenBooks.magazineEndpoint;
+    const endpoint = (type === 'book') ? RakutenBooks.BOOK_ENDPOINT : RakutenBooks.MAGAZINE_ENDPOINT;
     const url = `${endpoint}?${this.makeQuery(query)}`;
     const response = UrlFetchApp.fetch(url);
     const result = JSON.parse(response.getContentText());
