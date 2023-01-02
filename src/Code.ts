@@ -12,21 +12,11 @@ function today_(): Date {
 
 class Main {
   /**
-   *  RakutenBooks API の結果をパースして必要な情報を取り出す。
-   *  紙の本かつこれから発売される情報のみに絞り込む
-   *  @param [xmlDoc] xmlDoc
-   *  @return
+   *  RakutenBooks API の結果を紙の本かつこれから発売される情報のみに絞り込む。
    */
-  static parseResult(result: IBookInfo[]): string[][] {
-    const res = [];
+  static filterNewBooks(result: IBookInfo[]): IBookInfo[] {
     const todayObj = today_();
-    result.forEach((book) => {
-      const pubDate = new Date(book.salesDate);
-      if (pubDate >= todayObj) {
-        res.push([book.isbn, book.title, book.itemPrice, book.salesDate, book.url]);
-      }
-    });
-    return res;
+    return result.filter((book) => todayObj <= new Date(book.salesDate));
   }
 
   /**
@@ -72,7 +62,7 @@ class Main {
       console.error({ message: 'RakutenBooks#searchエラー', error });
     }
     console.info({ message: 'RakutenBooks#search結果', resultSearch });
-    const result = Main.parseResult(resultSearch);
+    const bookList = Main.filterNewBooks(resultSearch);
 
     // NextCheckの更新
     const now = new Date(Date.now());
@@ -81,7 +71,7 @@ class Main {
     targetRange.getCell(1, 3).setValue(now); // NextCheck
 
     // 結果を書き込み
-    const rowNum = result.length;
+    const rowNum = bookList.length;
     if (rowNum === 0) return; // 結果がなければ終了
 
     let targetSheet = ss.getSheetByName(String(nextTarget[0]));
@@ -90,10 +80,10 @@ class Main {
       targetSheet.getRange('A1:E1').setValues([['ISBN/JAN', 'Title', 'FormattedPrice', 'PublicationDate', 'URL']]);
     }
     const exists = targetSheet.getRange(`A2:A${targetSheet.getLastRow()}`).getValues().flat() as number[];
-    result.forEach((rowContents) => {
-      if (!exists.includes(Number(rowContents[0]))) {
-        targetSheet.appendRow(rowContents);
-        Main.createTask(rowContents);
+    bookList.forEach((book) => {
+      if (!exists.includes(Number(book[0]))) {
+        targetSheet.appendRow([book.isbn, book.title, book.itemPrice, book.salesDate, book.url]);
+        Main.createTask(book);
       }
     });
   }
@@ -101,17 +91,17 @@ class Main {
   /**
    * Todoist の買い物プロジェクトにタスクを追加する
    */
-  static createTask(data: string[]) {
+  static createTask(book: IBookInfo) {
     const config = Config.loadConfig();
     /* eslint-disable @typescript-eslint/naming-convention */
     const item = {
       project_id: config.TODOIST_PROJECT_ID,
-      content: Utilities.formatString('[「%s」購入](%s)', data[1], data[4]),
-      date_string: data[3],
+      content: `[「${book.title}」購入](${book.url})`,
+      description: `${book.author} ￥${book.itemPrice}`,
+      due: { date: book.salesDate },
     };
-    const note = { content: Utilities.formatString('ISBN: %s\n書名: %s\n価格: %s', data[0], data[1], data[2]) };
+    const note = { content: `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円` };
     /* eslint-enable @typescript-eslint/naming-convention */
-    // tslint:eable:object-literal-sort-keys
     const todoistClient = new Todoist.Client(config.TODOIST_API_TOKEN);
     const res = todoistClient.addItem(item, note);
     return res;

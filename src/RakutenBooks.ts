@@ -5,6 +5,7 @@ export interface IBookInfo {
   isbn: string;
   salesDate: string;
   itemPrice: number;
+  publisherName: string;
   url: string;
 }
 
@@ -15,8 +16,8 @@ export interface ISerachConditiuoin {
 }
 
 class RakutenBooks {
-  private static readonly bookEndpoint = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404';
-  private static readonly magazineEndpoint = 'https://app.rakuten.co.jp/services/api/BooksMagazine/Search/20170404';
+  private static readonly BOOK_ENDPOINT = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404';
+  private static readonly MAGAZINE_ENDPOINT = 'https://app.rakuten.co.jp/services/api/BooksMagazine/Search/20170404';
 
   private appId: string;
   private baseQuery = { applicationId: null, format: 'json', sort: '-releaseDate' };
@@ -46,9 +47,10 @@ class RakutenBooks {
    */
   private execSearch(query: ISerachConditiuoin): IBookInfo[] {
     const type = query.type || 'book';
-    const endpoint = (type === 'book') ? RakutenBooks.bookEndpoint : RakutenBooks.magazineEndpoint;
+    const endpoint = (type === 'book') ? RakutenBooks.BOOK_ENDPOINT : RakutenBooks.MAGAZINE_ENDPOINT;
     const url = `${endpoint}?${this.makeQuery(query)}`;
     const response = UrlFetchApp.fetch(url);
+    console.info({ url, response: response.getContentText() });
     const result = JSON.parse(response.getContentText());
     const books = result.Items.map((item: any) => {
       const {
@@ -57,21 +59,22 @@ class RakutenBooks {
         author,
         salesDate,
         itemPrice,
+        publisherName,
         itemUrl,
       } = item.Item;
       const isbn = (type === 'book') ? item.Item.isbn : item.Item.jan;
-      const date = salesDate.slice(0, -1).replace(/年|月/g, '-');
+      const date = salesDate.replace(/年|月/g, '-').replace(/日|上旬|中旬|下旬|頃|以降/g, '');
       return {
         title,
-        seriesName,
-        author,
+        seriesName: seriesName || '',
+        author: author || '',
         isbn,
         salesDate: date,
         itemPrice,
+        publisherName,
         url: itemUrl,
       };
     });
-    console.info({ url, books });
     return books;
   }
 
