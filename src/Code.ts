@@ -1,5 +1,5 @@
 import { Config } from './Config';
-import RakutenBooks, { IBookInfo, ISerachConditiuoin } from './RakutenBooks';
+import RakutenBooks, { IBookInfo, ISearchCondition } from './RakutenBooks';
 
 function today_(): Date {
   const date = new Date();
@@ -45,7 +45,7 @@ class Main {
     const nextTarget = targetRange.getValues()[0];
 
     // ターゲットの条件を取得する
-    const cond: ISerachConditiuoin = { type: 'book' };
+    const cond: ISearchCondition = { type: 'book' };
     for (let i = 3; i < header.length; i += 1) {
       if (header[i] === '') break;
       if (nextTarget[i] === '') continue; // eslint-disable-line no-continue
