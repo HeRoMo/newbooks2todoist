@@ -32,10 +32,10 @@ class Main {
     const values = range.getValues();
 
     const header = values.shift();
-    const nextCheckIdx = header.findIndex((e) => e === 'NextCheck');
+    const nextCheckColNum = header.findIndex((e) => e === 'NextCheck');
 
     const nextTargetIndex = values.findIndex((val) => {
-      const ncheck = val[nextCheckIdx];
+      const ncheck = val[nextCheckColNum];
       if (!(ncheck instanceof Date)) return true;
       return ncheck.getTime() < Date.now();
     });
@@ -52,7 +52,7 @@ class Main {
       cond[String(header[i])] = nextTarget[i];
     }
 
-    // 条件を元に検索
+    // 条件を元に楽天で検索
     let resultSearch: IBookInfo[];
     try {
       const config = Config.loadConfig();
@@ -62,26 +62,24 @@ class Main {
       console.error({ message: 'RakutenBooks#searchエラー', error });
     }
     console.info({ message: 'RakutenBooks#search結果', resultSearch });
-    const bookList = Main.filterNewBooks(resultSearch);
+    const newBooks = Main.filterNewBooks(resultSearch);
 
-    // NextCheckの更新
+    // IndexシートのNextCheckの更新
     const now = new Date(Date.now());
     targetRange.getCell(1, 2).setValue(now); // LastCheck
     now.setDate(now.getDate() + 7);
     targetRange.getCell(1, 3).setValue(now); // NextCheck
 
-    // 結果を書き込み
-    const rowNum = bookList.length;
-    if (rowNum === 0) return; // 結果がなければ終了
+    if (newBooks.length === 0) return; // 検索結果に新刊本がなければ終了
 
     let targetSheet = ss.getSheetByName(String(nextTarget[0]));
     if (targetSheet == null) { // 結果を書き込むシートがなければ作る
       targetSheet = ss.insertSheet(nextTarget[0]);
       targetSheet.getRange('A1:E1').setValues([['ISBN/JAN', 'Title', 'FormattedPrice', 'PublicationDate', 'URL']]);
     }
-    const exists = targetSheet.getRange(`A2:A${targetSheet.getLastRow()}`).getValues().flat() as number[];
-    bookList.forEach((book) => {
-      if (!exists.includes(Number(book.isbn))) {
+    const existngIsbns = targetSheet.getRange(`A2:A${targetSheet.getLastRow()}`).getValues().flat() as number[]; // すでに登録されている本のISDNリスト
+    newBooks.forEach((book) => {
+      if (!existngIsbns.includes(Number(book.isbn))) {
         targetSheet.appendRow([book.isbn, book.title, book.itemPrice, book.salesDate, book.url]);
         Main.createTask(book);
       }
