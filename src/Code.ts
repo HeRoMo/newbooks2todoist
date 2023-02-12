@@ -81,7 +81,7 @@ class Main {
     }
     const exists = targetSheet.getRange(`A2:A${targetSheet.getLastRow()}`).getValues().flat() as number[];
     bookList.forEach((book) => {
-      if (!exists.includes(Number(book[0]))) {
+      if (!exists.includes(Number(book.isbn))) {
         targetSheet.appendRow([book.isbn, book.title, book.itemPrice, book.salesDate, book.url]);
         Main.createTask(book);
       }
