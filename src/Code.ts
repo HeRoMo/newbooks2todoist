@@ -1,5 +1,5 @@
 import { Config } from './Config';
-import RakutenBooks, { IBookInfo, ISearchCondition } from './RakutenBooks';
+import { RakutenBooks, IBookInfo, ISearchCondition } from './RakutenBooks';
 
 function today_(): Date {
   const date = new Date();
@@ -10,7 +10,7 @@ function today_(): Date {
   return date;
 }
 
-class Main {
+export class Main {
   /**
    *  RakutenBooks API の結果を紙の本かつこれから発売される情報のみに絞り込む。
    */

@@ -15,7 +15,7 @@ export interface ISearchCondition {
   type: 'book'|'magazine';
 }
 
-class RakutenBooks {
+export class RakutenBooks {
   private static readonly BOOK_ENDPOINT = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404';
   private static readonly MAGAZINE_ENDPOINT = 'https://app.rakuten.co.jp/services/api/BooksMagazine/Search/20170404';
 
@@ -90,5 +90,3 @@ class RakutenBooks {
     return queries.join('&');
   }
 }
-
-export default RakutenBooks;
