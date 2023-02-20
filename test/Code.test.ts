@@ -33,6 +33,9 @@ const rakutenApiResultOther: IBookInfo[] = [
   { title: '別の本(1)', seriesName: '別のシリーズ名', author: '別の著者', isbn: '8888888888888', salesDate: testDate(-10), itemPrice: 500, publisherName: '別の出版社', url: 'http://example.com/other1' },
   { title: '別の本(2)', seriesName: '別のシリーズ名', author: '別の著者', isbn: '9999999999999', salesDate: testDate(-1), itemPrice: 500, publisherName: '別の出版社', url: 'http://example.com/other2' },
 ];
+const rakutenApiResultNew: IBookInfo[] = [
+  { title: 'はじめての本(1)', seriesName: 'はじめてのシリーズ名', author: 'はじめての著者', isbn: '0000000000000', salesDate: testDate(10), itemPrice: 500, publisherName: 'はじめての出版社', url: 'http://example.com/new1' },
+];
 jest.mock('../src/RakutenBooks', () => ({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   RakutenBooks: jest.fn().mockImplementation(() => ({
@@ -40,7 +43,10 @@ jest.mock('../src/RakutenBooks', () => ({
       if (cond.title === 'とある本') {
         return rakutenApiResult;
       }
-      return rakutenApiResultOther;
+      if (cond.title === '別の本') {
+        return rakutenApiResultOther;
+      }
+      return rakutenApiResultNew;
     }),
   })),
 }));
@@ -60,20 +66,38 @@ describe('#searchAndAddEvent', () => {
       })),
     };
 
+    const insertedSheet = {
+      getRange: jest.fn((range: string) => {
+        if (range === 'A1:E1') {
+          return {
+            setValues: jest.fn(),
+          };
+        }
+        return {
+          getValues: jest.fn().mockReturnValue([]),
+        };
+      }),
+      getLastRow: jest.fn().mockReturnValue(1),
+      appendRow: jest.fn(),
+    };
+
     SpreadsheetApp.getActiveSpreadsheet = jest.fn().mockImplementation(() => ({
       getSheetByName: jest.fn((name: string) => {
         if (name === 'INDEX') {
           return mockIndexSheet;
         }
-        return {
-          getLastRow: jest.fn(),
-          getRange: jest.fn().mockImplementation(() => ({
-            getValues: jest.fn().mockReturnValue(isbns),
-          })),
-          appendRow: jest.fn(),
-        };
+        if (name === 'とある本' || name === '別の本') {
+          return {
+            getLastRow: jest.fn(),
+            getRange: jest.fn().mockImplementation(() => ({
+              getValues: jest.fn().mockReturnValue(isbns),
+            })),
+            appendRow: jest.fn(),
+          };
+        }
+        return null;
       }),
-      addDeveloperMetadata: jest.fn(),
+      insertSheet: jest.fn(() => (insertedSheet)),
     }));
   }
 
@@ -111,7 +135,7 @@ describe('#searchAndAddEvent', () => {
       expect(mockTodoistCli.addItem).toHaveBeenCalledTimes(1);
       const book = rakutenApiResult[2];
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      const item = { project_id: '', content: `[「${book.title}」購入](http://example.com/vol3)`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate } };
+      const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate } };
       const content = `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円`;
       expect(mockTodoistCli.addItem).nthCalledWith(1, item, { content });
     });
@@ -128,6 +152,26 @@ describe('#searchAndAddEvent', () => {
     test('Todoは追加されない', () => {
       expect(Main.searchAndAddEvent).not.toThrow();
       expect(mockTodoistCli.addItem).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('はじめての本の場合', () => {
+    beforeEach(() => {
+      const index = [
+        ['SheetName', 'LastCheck', 'NextCheck', 'type', 'title', 'author', 'publisherName'],
+        ['はじめての本', testDate(-10), testDate(-2), 'book', 'はじめての本', '別の著者', '別の出版社'],
+      ];
+      prepareMocks(index, []);
+    });
+
+    test('Todoが追加される', () => {
+      expect(Main.searchAndAddEvent).not.toThrow();
+      expect(mockTodoistCli.addItem).toHaveBeenCalledTimes(1);
+      const book = rakutenApiResultNew[0];
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate } };
+      const content = `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円`;
+      expect(mockTodoistCli.addItem).nthCalledWith(1, item, { content });
     });
   });
 });
