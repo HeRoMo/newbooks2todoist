@@ -60,6 +60,7 @@ export class Main {
       resultSearch = client.search(cond);
     } catch (error) {
       console.error({ message: 'RakutenBooks#searchエラー', error });
+      throw error;
     }
     console.info({ message: 'RakutenBooks#search結果', resultSearch });
     const newBooks = Main.filterNewBooks(resultSearch);
