@@ -9,13 +9,13 @@ export interface IBookInfo {
   url: string;
 }
 
-export interface ISerachConditiuoin {
+export interface ISearchCondition {
   title?: string;
   author?: string;
   type: 'book'|'magazine';
 }
 
-class RakutenBooks {
+export class RakutenBooks {
   private static readonly BOOK_ENDPOINT = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404';
   private static readonly MAGAZINE_ENDPOINT = 'https://app.rakuten.co.jp/services/api/BooksMagazine/Search/20170404';
 
@@ -32,7 +32,7 @@ class RakutenBooks {
    * tyoe=magazineの場合、書籍検索と雑誌検索両方実行した結果を返す。
    * @param query 検索条件
    */
-  public search(query: ISerachConditiuoin): IBookInfo[] {
+  public search(query: ISearchCondition): IBookInfo[] {
     const books = this.execSearch(query);
     if (query.type === 'magazine') {
       books.concat(this.execSearch(query));
@@ -45,7 +45,7 @@ class RakutenBooks {
    * @param type 検索のタイプ
    * @param query 検索条件
    */
-  private execSearch(query: ISerachConditiuoin): IBookInfo[] {
+  private execSearch(query: ISearchCondition): IBookInfo[] {
     const type = query.type || 'book';
     const endpoint = (type === 'book') ? RakutenBooks.BOOK_ENDPOINT : RakutenBooks.MAGAZINE_ENDPOINT;
     const url = `${endpoint}?${this.makeQuery(query)}`;
@@ -82,7 +82,7 @@ class RakutenBooks {
    * APIリクエストのクエリーパラメータを生成する。
    * @param query
    */
-  private makeQuery(query: ISerachConditiuoin): string {
+  private makeQuery(query: ISearchCondition): string {
     const queryParams = { ...this.baseQuery, ...query };
     delete queryParams.type;
     const keys = Object.keys(queryParams);
@@ -90,5 +90,3 @@ class RakutenBooks {
     return queries.join('&');
   }
 }
-
-export default RakutenBooks;

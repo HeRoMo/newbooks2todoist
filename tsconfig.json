@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2019",
-    "module": "None",
+    "module": "commonjs",
     "noImplicitUseStrict": true,
     "experimentalDecorators": true,
     "typeRoots" : [

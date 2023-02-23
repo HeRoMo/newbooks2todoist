@@ -1,5 +1,5 @@
 import { Config } from './Config';
-import RakutenBooks, { IBookInfo, ISerachConditiuoin } from './RakutenBooks';
+import { RakutenBooks, IBookInfo, ISearchCondition } from './RakutenBooks';
 
 function today_(): Date {
   const date = new Date();
@@ -10,7 +10,7 @@ function today_(): Date {
   return date;
 }
 
-class Main {
+export class Main {
   /**
    *  RakutenBooks API の結果を紙の本かつこれから発売される情報のみに絞り込む。
    */
@@ -32,10 +32,10 @@ class Main {
     const values = range.getValues();
 
     const header = values.shift();
-    const nextCheckIdx = header.findIndex((e) => e === 'NextCheck');
+    const nextCheckColNum = header.findIndex((e) => e === 'NextCheck');
 
     const nextTargetIndex = values.findIndex((val) => {
-      const ncheck = val[nextCheckIdx];
+      const ncheck = val[nextCheckColNum];
       if (!(ncheck instanceof Date)) return true;
       return ncheck.getTime() < Date.now();
     });
@@ -45,14 +45,14 @@ class Main {
     const nextTarget = targetRange.getValues()[0];
 
     // ターゲットの条件を取得する
-    const cond: ISerachConditiuoin = { type: 'book' };
+    const cond: ISearchCondition = { type: 'book' };
     for (let i = 3; i < header.length; i += 1) {
       if (header[i] === '') break;
       if (nextTarget[i] === '') continue; // eslint-disable-line no-continue
       cond[String(header[i])] = nextTarget[i];
     }
 
-    // 条件を元に検索
+    // 条件を元に楽天で検索
     let resultSearch: IBookInfo[];
     try {
       const config = Config.loadConfig();
@@ -60,28 +60,27 @@ class Main {
       resultSearch = client.search(cond);
     } catch (error) {
       console.error({ message: 'RakutenBooks#searchエラー', error });
+      throw error;
     }
     console.info({ message: 'RakutenBooks#search結果', resultSearch });
-    const bookList = Main.filterNewBooks(resultSearch);
+    const newBooks = Main.filterNewBooks(resultSearch);
 
-    // NextCheckの更新
+    // IndexシートのNextCheckの更新
     const now = new Date(Date.now());
     targetRange.getCell(1, 2).setValue(now); // LastCheck
     now.setDate(now.getDate() + 7);
     targetRange.getCell(1, 3).setValue(now); // NextCheck
 
-    // 結果を書き込み
-    const rowNum = bookList.length;
-    if (rowNum === 0) return; // 結果がなければ終了
+    if (newBooks.length === 0) return; // 検索結果に新刊本がなければ終了
 
     let targetSheet = ss.getSheetByName(String(nextTarget[0]));
     if (targetSheet == null) { // 結果を書き込むシートがなければ作る
       targetSheet = ss.insertSheet(nextTarget[0]);
       targetSheet.getRange('A1:E1').setValues([['ISBN/JAN', 'Title', 'FormattedPrice', 'PublicationDate', 'URL']]);
     }
-    const exists = targetSheet.getRange(`A2:A${targetSheet.getLastRow()}`).getValues().flat() as number[];
-    bookList.forEach((book) => {
-      if (!exists.includes(Number(book[0]))) {
+    const existngIsbns = targetSheet.getRange(`A2:A${targetSheet.getLastRow()}`).getValues().flat() as number[]; // すでに登録されている本のISDNリスト
+    newBooks.forEach((book) => {
+      if (!existngIsbns.includes(Number(book.isbn))) {
         targetSheet.appendRow([book.isbn, book.title, book.itemPrice, book.salesDate, book.url]);
         Main.createTask(book);
       }
