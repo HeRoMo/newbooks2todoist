@@ -98,7 +98,7 @@ export class Main {
       content: `[「${book.title}」購入](${book.url})`,
       description: `${book.author} ￥${book.itemPrice}`,
       due: { date: book.salesDate },
-      labels: config.LABELS.split(','),
+      labels: config.LABELS?.split(',') || [],
     };
     const note = { content: `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円` };
     /* eslint-enable @typescript-eslint/naming-convention */
