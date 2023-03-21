@@ -23,6 +23,7 @@ jest.mock('../src/Config', () => ({
     loadConfig: jest.fn().mockReturnValue({
       TODOIST_API_TOKEN: '',
       TODOIST_PROJECT_ID: '',
+      LABELS: 'shopping,other',
       RAKUTEN_APP_ID: 'API-KEY',
     }),
   },
@@ -143,7 +144,7 @@ describe('#searchAndAddEvent', () => {
       expect(mockTodoistCli.addItem).toHaveBeenCalledTimes(1);
       const book = rakutenApiResult[2];
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate } };
+      const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate }, labels: ['shopping', 'other'] };
       const content = `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円`;
       expect(mockTodoistCli.addItem).nthCalledWith(1, item, { content });
     });
@@ -177,7 +178,7 @@ describe('#searchAndAddEvent', () => {
       expect(mockTodoistCli.addItem).toHaveBeenCalledTimes(1);
       const book = rakutenApiResultNew[0];
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate } };
+      const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate }, labels: ['shopping', 'other'] };
       const content = `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円`;
       expect(mockTodoistCli.addItem).nthCalledWith(1, item, { content });
     });
