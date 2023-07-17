@@ -2,8 +2,6 @@
   "compilerOptions": {
     "target": "ES2019",
     "module": "commonjs",
-    "noImplicitUseStrict": true,
-    "experimentalDecorators": true,
     "typeRoots" : [
       "./node_modules/@types",
       "./types"
