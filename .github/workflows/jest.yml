@@ -3,8 +3,17 @@ on:
   pull_request:
     types: [opened, synchronize]
 jobs:
-  coverage:
+  test-and-report:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: 'yarn'
+      - name: Test and Report
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          package-manager: yarn
+          test-script: yarn test
