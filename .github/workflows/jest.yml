@@ -12,8 +12,10 @@ jobs:
         with:
           node-version-file: '.node-version'
           cache: 'yarn'
+      - name: yarn install
+        run: yarn install
       - name: Test and Report
-        uses: ArtiomTr/jest-coverage-report-action@v2
+        uses: dkershner6/jest-coverage-commenter-action@v2
         with:
-          package-manager: yarn
-          test-script: yarn test
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          test_command: "yarn test"
