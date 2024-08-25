@@ -13,7 +13,6 @@ jobs:
           node-version-file: '.node-version'
           cache: 'yarn'
       - name: Test and Report
-        uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          package-manager: yarn
-          test-script: yarn test
+        uses: mattallty/jest-github-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
