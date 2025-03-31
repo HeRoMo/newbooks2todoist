@@ -959,9 +959,9 @@
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
 "@types/node@*":
-  version "22.13.11"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.13.11.tgz#f0ed6b302dcf0f4229d44ea707e77484ad46d234"
-  integrity sha512-iEUCUJoU0i3VnrCmgoWCXttklWcvoCIx4jzcP22fioIVSdTmjgoEvmAO/QPw6TcS9k5FrNgn4w7q5lGOd1CT5g==
+  version "22.13.14"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.13.14.tgz#70d84ec91013dcd2ba2de35532a5a14c2b4cc912"
+  integrity sha512-Zs/Ollc1SJ8nKUAgc7ivOEdIBM8JAKgrqqUYi2J997JuKO7/tpQC+WCetQ1sypiKCQWHdvdg9wBNpUPEWZae7w==
   dependencies:
     undici-types "~6.20.0"
 
@@ -5356,9 +5356,9 @@ ts-api-utils@^2.0.1:
   integrity sha512-dnlgjFSVetynI8nzgJ+qF62efpglpWRk8isUEWZGWlJYySCTD6aKvbUDu+zbPeDakk3bg5H4XpitHukgfL1m9w==
 
 ts-jest@^29.0.5:
-  version "29.3.0"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-29.3.0.tgz#8fc867616619dafeac150b818056badfe07708d5"
-  integrity sha512-4bfGBX7Gd1Aqz3SyeDS9O276wEU/BInZxskPrbhZLyv+c1wskDCqDFMJQJLWrIr/fKoAH4GE5dKUlrdyvo+39A==
+  version "29.3.1"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-29.3.1.tgz#2e459e1f94a833bd8216ba4b045fac948e265937"
+  integrity sha512-FT2PIRtZABwl6+ZCry8IY7JZ3xMuppsEV9qFVHOVe8jDzggwUZ9TsM4chyJxL9yi6LvkqcZYU3LmapEE454zBQ==
   dependencies:
     bs-logger "^0.2.6"
     ejs "^3.1.10"
@@ -5368,7 +5368,7 @@ ts-jest@^29.0.5:
     lodash.memoize "^4.1.2"
     make-error "^1.3.6"
     semver "^7.7.1"
-    type-fest "^4.37.0"
+    type-fest "^4.38.0"
     yargs-parser "^21.1.1"
 
 ts-node@^10.9.1:
@@ -5445,10 +5445,10 @@ type-fest@^2.1.0:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-2.5.1.tgz#17ba4f36a6abfabf0a92005d045dca77564607b0"
   integrity sha512-JDcsxbLR6Z6OcL7TnGAAAGQrY4g7Q4EEALMT4Kp6FQuIc0JLQvOF3l7ejFvx8o5GmLlfMseTWUL++sYFP+o8kw==
 
-type-fest@^4.37.0:
-  version "4.37.0"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.37.0.tgz#7cf008bf77b63a33f7ca014fa2a3f09fd69e8937"
-  integrity sha512-S/5/0kFftkq27FPNye0XM1e2NsnoD/3FS+pBmbjmmtLT6I+i344KoOf7pvXreaFsDamWeaJX55nczA1m5PsBDg==
+type-fest@^4.38.0:
+  version "4.38.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.38.0.tgz#659fa14d1a71c2811400aa3b5272627e0c1e6b96"
+  integrity sha512-2dBz5D5ycHIoliLYLi0Q2V7KRaDlH0uWIvmk7TYlAg5slqwiPv1ezJdZm1QEM0xgk29oYWMCbIG7E6gHpvChlg==
 
 typed-array-buffer@^1.0.0:
   version "1.0.0"
