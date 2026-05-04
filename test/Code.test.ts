@@ -113,7 +113,7 @@ describe('#searchAndAddEvent', () => {
   const mockTodoistCli = {
     addItem: jest.fn(),
   };
-  Todoist.Client = jest.fn().mockImplementation(() => mockTodoistCli);
+  Todoist.createClient = jest.fn().mockReturnValue(mockTodoistCli);
 
   describe('追加する本がない場合', () => {
     beforeEach(() => {
