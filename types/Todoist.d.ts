@@ -1,6 +1,6 @@
 declare namespace Todoist {
-  export class Client {
-    constructor(todoistToken: string);
+  interface Client {
     addItem(item: object, note?: any): object[];
   }
+  export function createClient(todoistToken: string): Client;
 }

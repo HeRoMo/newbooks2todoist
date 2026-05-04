@@ -78,9 +78,9 @@ export class Main {
       targetSheet = ss.insertSheet(nextTarget[0]);
       targetSheet.getRange('A1:E1').setValues([['ISBN/JAN', 'Title', 'FormattedPrice', 'PublicationDate', 'URL']]);
     }
-    const existngIsbns = targetSheet.getRange(`A2:A${targetSheet.getLastRow()}`).getValues().flat() as number[]; // すでに登録されている本のISDNリスト
+    const existingIsbns = targetSheet.getRange(`A2:A${targetSheet.getLastRow()}`).getValues().flat() as number[]; // すでに登録されている本のISDNリスト
     newBooks.forEach((book) => {
-      if (!existngIsbns.includes(Number(book.isbn))) {
+      if (!existingIsbns.includes(Number(book.isbn))) {
         targetSheet.appendRow([book.isbn, book.title, book.itemPrice, book.salesDate, book.url]);
         Main.createTask(book);
       }
@@ -102,13 +102,13 @@ export class Main {
     };
     const note = { content: `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円` };
     /* eslint-enable @typescript-eslint/naming-convention */
-    const todoistClient = new Todoist.Client(config.TODOIST_API_TOKEN);
+    const todoistClient = Todoist.createClient(config.TODOIST_API_TOKEN);
     const res = todoistClient.addItem(item, note);
     return res;
   }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function execute() {
+export function execute() {
   Main.searchAndAddEvent();
 }
