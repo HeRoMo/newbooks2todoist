@@ -1,3 +1,18 @@
+interface RakutenBooksItem {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  Item: {
+    title: string;
+    seriesName: string;
+    author: string;
+    salesDate: string;
+    itemPrice: number;
+    publisherName: string;
+    itemUrl: string;
+    isbn: string;
+    jan: string;
+  };
+}
+
 export interface IBookInfo {
   title: string;
   seriesName: string;
@@ -52,7 +67,7 @@ export class RakutenBooks {
     const response = UrlFetchApp.fetch(url);
     console.info({ url, response: response.getContentText() });
     const result = JSON.parse(response.getContentText());
-    const books = result.Items.map((item: any) => {
+    const books = result.Items.map((item: RakutenBooksItem) => {
       const {
         title,
         seriesName,

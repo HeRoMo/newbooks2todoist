@@ -48,7 +48,7 @@ export class Main {
     const cond: ISearchCondition = { type: 'book' };
     for (let i = 3; i < header.length; i += 1) {
       if (header[i] === '') break;
-      if (nextTarget[i] === '') continue; // eslint-disable-line no-continue
+      if (nextTarget[i] === '') continue;
       cond[String(header[i])] = nextTarget[i];
     }
 

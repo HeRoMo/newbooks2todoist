@@ -1,7 +1,6 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import parser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
 import jestPlugin from 'eslint-plugin-jest';
 import { fileURLToPath } from 'url';
@@ -21,15 +20,17 @@ export default [
     ignores: ['**/*.js', '**/*.mjs', '**/*.d.ts'],
   },
 
-  // airbnb-base と import プラグイン設定をレガシー互換レイヤー経由で読み込み
-  ...compat.extends('airbnb-base'),
+  // typescript-eslint recommended（flat config対応）
+  ...typescriptEslint.configs['flat/recommended'],
+
+  // import プラグイン設定（FlatCompat経由）
   ...compat.extends(
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
   ),
 
-  // Google Apps Script グローバル変数の定義
+  // Google Apps Script グローバル変数（FlatCompat経由）
   ...compat.config({
     plugins: ['googleappsscript'],
     env: {
@@ -41,7 +42,6 @@ export default [
   {
     files: ['**/*.ts'],
     languageOptions: {
-      parser: parser,
       parserOptions: {
         ecmaVersion: 2019,
         sourceType: 'module',
@@ -53,7 +53,6 @@ export default [
       },
     },
     plugins: {
-      '@typescript-eslint': typescriptEslint,
       import: importPlugin,
     },
     rules: {
