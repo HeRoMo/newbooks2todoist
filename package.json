@@ -5,13 +5,15 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "@eslint/eslintrc": "^3.0.0",
+    "@eslint/js": "^10.0.0",
     "@google/clasp": "2.5.0",
     "esbuild": "^0.28.0",
     "@types/google-apps-script": "2.0.8",
     "@types/jest": "^29.4.0",
     "@typescript-eslint/eslint-plugin": "8.59.2",
     "@typescript-eslint/parser": "8.59.2",
-    "eslint": "9.39.4",
+    "eslint": "^10.3.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-googleappsscript": "1.0.5",
     "eslint-plugin-import": "2.32.0",
@@ -21,7 +23,7 @@
     "ts-node": "^10.9.1"
   },
   "scripts": {
-    "eslint": "eslint . --ext .ts",
+    "eslint": "eslint .",
     "clasp:login": "./node_modules/.bin/clasp login",
     "clasp:create": "./node_modules/.bin/clasp create --type sheets --title 'newbooks2todoist' --rootDir ./src",
     "build": "node build.mjs",
