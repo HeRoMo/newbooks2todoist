@@ -146,7 +146,7 @@ describe('#searchAndAddEvent', () => {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate }, labels: ['shopping', 'other'] };
       const content = `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円`;
-      expect(mockTodoistCli.addItem).nthCalledWith(1, item, { content });
+      expect(mockTodoistCli.addItem).toHaveBeenNthCalledWith(1, item, { content });
     });
   });
 
@@ -180,7 +180,7 @@ describe('#searchAndAddEvent', () => {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate }, labels: ['shopping', 'other'] };
       const content = `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円`;
-      expect(mockTodoistCli.addItem).nthCalledWith(1, item, { content });
+      expect(mockTodoistCli.addItem).toHaveBeenNthCalledWith(1, item, { content });
     });
   });
 
