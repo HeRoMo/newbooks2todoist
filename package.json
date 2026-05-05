@@ -7,7 +7,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.0",
     "@eslint/js": "^10.0.0",
-    "@google/clasp": "2.5.0",
+    "@google/clasp": "3.2.0",
     "esbuild": "^0.28.0",
     "@types/google-apps-script": "2.0.8",
     "@types/jest": "^29.4.0",
