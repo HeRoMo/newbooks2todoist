@@ -10,7 +10,7 @@ A GAS(Google Apps Scripts) application for finding new book release and add your
 ### Create Rakuten App ID and Todoist API token
 
 - Rakuten App ID
-  - Access [Rakuten Web Service: Application list](https://webservice.rakuten.co.jp/app/list) to create your Rakuten App Id
+  - Access [Rakuten Web Service: Application list](https://webservice.rakuten.co.jp/app/list) to create your Rakuten App
 - Todoist API token
   - Access [Integrations](https://todoist.com/prefs/integrations) to create your Todoist API token
 
@@ -37,11 +37,15 @@ Create *CONFIG* sheet looks like the followind image.
 
 Define application the following configurations in *CONFIG* sheet.
 
-|Name| Value|
-|---|---|
-|TODOIST_API_TOKEN|Todoist API Token|
-|TODOIST_PROJECT_ID| Todoist project ID. |
-|RAKUTEN_APP_ID|Rakuten App ID|
+| Name               | Value                                 |
+|--------------------|---------------------------------------|
+| TODOIST_API_TOKEN  | Todoist API Token                     |
+| TODOIST_PROJECT_ID | Todoist project ID.                   |
+| RAKUTEN_APP_ID     | your Rakuten app ID                   |
+| RAKUTEN_ACCESS_KEY | your Rakuten app access key           |
+|RAKUTEN_REFERER| your Rakuten app allowed websites url |
+
+
 
 This app add items to Todoist Project indicated by TODOIST_PROJECT_ID.
 

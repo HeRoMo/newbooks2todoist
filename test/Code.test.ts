@@ -25,6 +25,8 @@ jest.mock('../src/Config', () => ({
       TODOIST_PROJECT_ID: '',
       LABELS: 'shopping,other',
       RAKUTEN_APP_ID: 'API-KEY',
+      RAKUTEN_ACCESS_KEY: 'ACCESS-KEY',
+      RAKUTEN_REFERER: 'https://example.com/',
     }),
   },
   /* eslint-enable @typescript-eslint/naming-convention */
