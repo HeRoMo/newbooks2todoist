@@ -56,7 +56,7 @@ export class Main {
     let resultSearch: IBookInfo[];
     try {
       const config = Config.loadConfig();
-      const client = new RakutenBooks(config.RAKUTEN_APP_ID);
+      const client = new RakutenBooks(config.RAKUTEN_APP_ID, config.RAKUTEN_ACCESS_KEY, config.RAKUTEN_REFERER);
       resultSearch = client.search(cond);
     } catch (error) {
       console.error({ message: 'RakutenBooks#searchエラー', error });

@@ -31,14 +31,18 @@ export interface ISearchCondition {
 }
 
 export class RakutenBooks {
-  private static readonly BOOK_ENDPOINT = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404';
-  private static readonly MAGAZINE_ENDPOINT = 'https://app.rakuten.co.jp/services/api/BooksMagazine/Search/20170404';
+  private static readonly BOOK_ENDPOINT = 'https://openapi.rakuten.co.jp/services/api/BooksBook/Search/20170404';
+  private static readonly MAGAZINE_ENDPOINT = 'https://openapi.rakuten.co.jp/services/api/BooksMagazine/Search/20170404';
 
   private appId: string;
+  private accessKey: string;
+  private referer: string;
   private baseQuery = { applicationId: null, format: 'json', sort: '-releaseDate' };
 
-  public constructor(appId: string) {
+  public constructor(appId: string, accessKey: string, referer: string) {
     this.appId = appId;
+    this.accessKey = accessKey;
+    this.referer = referer;
     this.baseQuery.applicationId = this.appId;
   }
 
@@ -64,7 +68,15 @@ export class RakutenBooks {
     const type = query.type || 'book';
     const endpoint = (type === 'book') ? RakutenBooks.BOOK_ENDPOINT : RakutenBooks.MAGAZINE_ENDPOINT;
     const url = `${endpoint}?${this.makeQuery(query)}`;
-    const response = UrlFetchApp.fetch(url);
+    const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
+      method: 'get',
+      headers: {
+        'accessKey': this.accessKey,
+        'Referer': this.referer, // eslint-disable-line @typescript-eslint/naming-convention
+        'Origin': this.referer, // eslint-disable-line @typescript-eslint/naming-convention
+      },
+    }
+    const response = UrlFetchApp.fetch(url, options);
     console.info({ url, response: response.getContentText() });
     const result = JSON.parse(response.getContentText());
     const books = result.Items.map((item: RakutenBooksItem) => {
