@@ -33,16 +33,16 @@ jest.mock('../src/Config', () => ({
 }));
 
 const rakutenApiResult: IBookInfo[] = [
-  { title: 'とある本(1)', seriesName: 'シリーズ名', author: '著者', isbn: '1111111111111', salesDate: testDateStr(-1), itemPrice: 500, publisherName: '出版社', url: 'http://example.com/vol1' },
-  { title: 'とある本(2)', seriesName: 'シリーズ名', author: '著者', isbn: '2222222222222', salesDate: testDateStr(1), itemPrice: 500, publisherName: '出版社', url: 'http://example.com/vol2' },
-  { title: 'とある本(3)', seriesName: 'シリーズ名', author: '著者', isbn: '3333333333333', salesDate: testDateStr(10), itemPrice: 500, publisherName: '出版社', url: 'http://example.com/vol3' },
+  { title: 'とある本(1)', seriesName: 'シリーズ名', author: '著者', isbn: '9781111111111', salesDate: testDateStr(-1), itemPrice: 500, publisherName: '出版社', url: 'https://example.com/vol1' },
+  { title: 'とある本(2)', seriesName: 'シリーズ名', author: '著者', isbn: '9782222222222', salesDate: testDateStr(1), itemPrice: 500, publisherName: '出版社', url: 'https://example.com/vol2' },
+  { title: 'とある本(3)', seriesName: 'シリーズ名', author: '著者', isbn: '9783333333333', salesDate: testDateStr(10), itemPrice: 500, publisherName: '出版社', url: 'https://example.com/vol3' },
 ];
 const rakutenApiResultOther: IBookInfo[] = [
-  { title: '別の本(1)', seriesName: '別のシリーズ名', author: '別の著者', isbn: '8888888888888', salesDate: testDateStr(-10), itemPrice: 500, publisherName: '別の出版社', url: 'http://example.com/other1' },
-  { title: '別の本(2)', seriesName: '別のシリーズ名', author: '別の著者', isbn: '9999999999999', salesDate: testDateStr(-1), itemPrice: 500, publisherName: '別の出版社', url: 'http://example.com/other2' },
+  { title: '別の本(1)', seriesName: '別のシリーズ名', author: '別の著者', isbn: '9788888888888', salesDate: testDateStr(-10), itemPrice: 500, publisherName: '別の出版社', url: 'https://example.com/other1' },
+  { title: '別の本(2)', seriesName: '別のシリーズ名', author: '別の著者', isbn: '9789999999999', salesDate: testDateStr(-1), itemPrice: 500, publisherName: '別の出版社', url: 'https://example.com/other2' },
 ];
 const rakutenApiResultNew: IBookInfo[] = [
-  { title: 'はじめての本(1)', seriesName: 'はじめてのシリーズ名', author: 'はじめての著者', isbn: '0000000000000', salesDate: testDateStr(10), itemPrice: 500, publisherName: 'はじめての出版社', url: 'http://example.com/new1' },
+  { title: 'はじめての本(1)', seriesName: 'はじめてのシリーズ名', author: 'はじめての著者', isbn: '9780000000000', salesDate: testDateStr(10), itemPrice: 500, publisherName: 'はじめての出版社', url: 'https://example.com/new1' },
 ];
 jest.mock('../src/RakutenBooks', () => ({
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -123,7 +123,7 @@ describe('#searchAndAddEvent', () => {
         ['SheetName', 'LastCheck', 'NextCheck', 'type', 'title', 'author', 'publisherName'],
         ['とある本', testDate(-10), testDate(-2), 'book', 'とある本', '著者', '出版社'],
       ];
-      prepareMocks(index, [[1111111111111], [2222222222222], [3333333333333]]);
+      prepareMocks(index, [[9781111111111], [9782222222222], [9783333333333]]);
     });
 
     test('Todoは追加されない', () => {
@@ -138,7 +138,7 @@ describe('#searchAndAddEvent', () => {
         ['SheetName', 'LastCheck', 'NextCheck', 'type', 'title', 'author', 'publisherName'],
         ['とある本', testDate(-10), testDate(-2), 'book', 'とある本', '著者', '出版社'],
       ];
-      prepareMocks(index, [[1111111111111], [2222222222222]]);
+      prepareMocks(index, [[9781111111111], [9782222222222]]);
     });
 
     test('Todoが追加される', () => {
@@ -146,7 +146,7 @@ describe('#searchAndAddEvent', () => {
       expect(mockTodoistCli.addItem).toHaveBeenCalledTimes(1);
       const book = rakutenApiResult[2];
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate }, labels: ['shopping', 'other'] };
+      const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice} [Amazon Page](https://www.amazon.co.jp/dp/3333333333)`, due: { date: book.salesDate }, labels: ['shopping', 'other'] };
       const content = `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円`;
       expect(mockTodoistCli.addItem).toHaveBeenNthCalledWith(1, item, { content });
     });
@@ -180,7 +180,7 @@ describe('#searchAndAddEvent', () => {
       expect(mockTodoistCli.addItem).toHaveBeenCalledTimes(1);
       const book = rakutenApiResultNew[0];
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice}`, due: { date: book.salesDate }, labels: ['shopping', 'other'] };
+      const item = { project_id: '', content: `[「${book.title}」購入](${book.url})`, description: `${book.author} ￥${book.itemPrice} [Amazon Page](https://www.amazon.co.jp/dp/0000000000)`, due: { date: book.salesDate }, labels: ['shopping', 'other'] };
       const content = `ISBN: ${book.isbn}\n書名: ${book.title}\n著者: ${book.author}\n出版社: ${book.publisherName} ${book.seriesName}\n価格: ${book.itemPrice} 円`;
       expect(mockTodoistCli.addItem).toHaveBeenNthCalledWith(1, item, { content });
     });

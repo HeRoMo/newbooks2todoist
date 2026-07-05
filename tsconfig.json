@@ -5,6 +5,7 @@
     "typeRoots" : [
       "./node_modules/@types",
       "./types"
-    ]
+    ],
+    "types": ["jest", "google-apps-script"]
   }
 }

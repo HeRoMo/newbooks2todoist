@@ -1,5 +1,6 @@
 import { Config } from './Config';
 import { RakutenBooks, IBookInfo, ISearchCondition } from './RakutenBooks';
+import { convertIsbn13To10 } from './util'
 
 function today_(): Date {
   const date = new Date();
@@ -96,7 +97,7 @@ export class Main {
     const item = {
       project_id: config.TODOIST_PROJECT_ID,
       content: `[「${book.title}」購入](${book.url})`,
-      description: `${book.author} ￥${book.itemPrice}`,
+      description: `${book.author} ￥${book.itemPrice} ${appendAmazonLink(book.isbn)})`,
       due: { date: book.salesDate },
       labels: config.LABELS?.split(',') || [],
     };
@@ -106,6 +107,14 @@ export class Main {
     const res = todoistClient.addItem(item, note);
     return res;
   }
+}
+
+export function appendAmazonLink(isbn13: string): string {
+  const isbn10 = convertIsbn13To10(isbn13);
+  if (isbn10 === '') {
+    return '';
+  }
+  return `[Amazon Page](https://www.amazon.co.jp/dp/${isbn10}`;
 }
 
 export function execute() {
