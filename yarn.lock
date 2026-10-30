@@ -1368,10 +1368,10 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.9.tgz#cf3f0e876d7bee15a93ab925b82bf570a3904a24"
   integrity sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==
 
-"@types/google-apps-script@2.0.13":
-  version "2.0.13"
-  resolved "https://registry.yarnpkg.com/@types/google-apps-script/-/google-apps-script-2.0.13.tgz#cc9800a814069ffcfee94e20f9477c042824cbea"
-  integrity sha512-prNQIdxdoZu0oSzu1MpiSPblBnN9Gvs3Kbi5g3LNdjnmTwwvneVPAM/mQNDA+/CPMQOrfQRfN43ssS/O8vMGZg==
+"@types/google-apps-script@2.0.14":
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/@types/google-apps-script/-/google-apps-script-2.0.14.tgz#79619a8728206f04fc6baf7779149e38d400e76f"
+  integrity sha512-/zz1aYjBgZTlCf4axe8xzEvpkNUlso1qqMoHKs3ov6VdTlIiKIVinWqTgavKHwR3kiflhm2B25OrqAUVNJtSUQ==
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.1", "@types/istanbul-lib-coverage@^2.0.6":
   version "2.0.6"
